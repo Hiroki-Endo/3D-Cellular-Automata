@@ -3,28 +3,32 @@ class Box {
   int[] location;
   boolean state;
 
-  public Box(int x, int y, int z, boolean state) {
+  public Box(int x, int y, int z, boolean state, boolean iterated) {
     location = new int[3];
     location[0] = x;
     location[1] = y;
     location[2] = z;
     neighbors = new Box[3][3][3];
 
-    for (int i = 0; i < 3; i++) {
-      for (int j = 0; j < 3; j++) {
-        for (int k = 0; k < 3; k++) {
-          if (i*j*k!=1) {
-            if (source[location[0]+i-1][location[1]+j-1][location[2]+k-1] == null) {
-              neighbors[i][j][k] = new Box (location[0]+i-1, location[1]+j-1, location[2]+k-1, false);
+    if (!iterated) {
+      for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+          for (int k = 0; k < 3; k++) {
+            if (i*j*k!=1) {
+              if (source[location[0]+i-1][location[1]+j-1][location[2]+k-1] == null) {
+                neighbors[i][j][k] = new Box (location[0]+i-1, location[1]+j-1, location[2]+k-1, false, true);
+              } else {
+                neighbors[i][j][k]=source[location[0]+i-1][location[1]+j-1][location[2]+k-1];
+              }
+              neighbors[i][j][k].neighbors[2-i][2-j][2-k]=this;
             } else {
-              neighbors[i][j][k]=source[location[0]+i-1][location[1]+j-1][location[2]+k-1];
+              neighbors[i][j][k] = this;
             }
-            neighbors[i][j][k].neighbors[2-i][2-j][2-k]=this;
-          } else {
-            neighbors[i][j][k] = this;
           }
         }
       }
+    } else {
+      neighbors[1][1][1] = this;
     }
     this.state = state;
   }
