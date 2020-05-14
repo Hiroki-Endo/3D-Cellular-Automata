@@ -35,7 +35,7 @@ class Box {
 
   public boolean visible() {
     return !(neighbors[0][1][1].state && neighbors[1][0][1].state && neighbors[1][1][0].state
-      &&neighbors[2][1][1].state && neighbors[1][2][1].state && neighbors[1][1][2].state);
+      && neighbors[2][1][1].state && neighbors[1][2][1].state && neighbors[1][1][2].state);
   }
 
   public void iterate() {
